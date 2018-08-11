@@ -3,6 +3,16 @@ const HDWalletProvider = require('truffle-hdwallet-provider')
 
 module.exports = {
   networks: {
+    mainnet: {
+      provider() {
+        return new HDWalletProvider(
+          process.env.ENS_MAINNET,
+          'https://mainnet.infura.io/v3/' + process.env.INFURA_API_KEY
+        )
+      },
+      network_id: 1,
+      gasPrice: 1000000000 * 6 // 10 GWEI
+    },
     develop: {
       provider() {
         return new HDWalletProvider(
@@ -53,11 +63,13 @@ module.exports = {
     ropsten: {
       provider() {
         return new HDWalletProvider(
-          process.env.TESTNET_MNEMONIC,
+          process.env.RINKEBY_MNEMONIC,
           'https://ropsten.infura.io/' + process.env.INFURA_API_KEY
         )
       },
-      network_id: 2
+      network_id: '3',
+      gasPrice: 1000000000 * 10 // 10 GWEI
+
       // gas: 4700000
     },
     sokol: {
