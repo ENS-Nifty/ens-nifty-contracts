@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import 'zeppelin-solidity/contracts/tokens/721/ERC721Token.sol'
+import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 
 contract Resolver {
     function addr(bytes32 node) constant returns(address);
@@ -21,22 +21,22 @@ contract ENSNFT is ERC721Token {
         ERC721Token(_name, _symbol) {
         ens = ENS(_ens);
     }
-    function register(bytes32 rootHash) public {
-        address recentOwner = ens.owner(rootHash);
-        require(recentOwner != address(this));
-        recentOwner[rootHash] = recentOwner;
+    function register(bytes32 node) public {
+        address currentOwner = ens.owner(node);
+        require(currentOwner != address(this));
+        recentOwners[node] = currentOwner;
     }
-    function mint(bytes32 rootHash) public {
-        require(ens.owner(rootHash) == address(this));
-        address lastOwner = recentOwners[rootHash];
-        uint256 tokenId = uint256(rootHash);
+    function mint(bytes32 node) public {
+        require(ens.owner(node) == address(this));
+        address lastOwner = recentOwners[node];
+        uint256 tokenId = uint256(node); // big endian little endian problem?
         _mint(lastOwner, tokenId);
-        delete(recentOwner[rootHash]); // here or in burn?
+        delete(recentOwners[node]); // here or in burn?
     }
-    function burn(bytes32 rootHash) {
-        uint256 tokenId = uint256(rootHash);
+    function burn(bytes32 node) {
+        uint256 tokenId = uint256(node);
         require(ownerOf(tokenId) == msg.sender);
-        _burn(tokenId);
-        ens.setOwner(rootHash, msg.sender);
+        _burn(msg.sender, tokenId);
+        ens.setOwner(node, msg.sender);
     }
 }
