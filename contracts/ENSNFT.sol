@@ -1,42 +1,27 @@
 pragma solidity ^0.4.23;
 
 import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
+import '@ensdomains/ens/contracts/Deed.sol';
+import '@ensdomains/ens/contracts/HashRegistrarSimplified.sol';
 
-contract Resolver {
-    function addr(bytes32 node) constant returns(address);
-}
-contract ENS {
-    function owner(bytes32 node) constant returns (address);
-    function resolver(bytes32 node) constant returns (Resolver);
-    function ttl(bytes32 node) constant returns (uint64);
-    function setOwner(bytes32 node, address owner);
-    function setSubnodeOwner(bytes32 node, bytes32 label, address owner);
-    function setResolver(bytes32 node, address resolver);
-    function setTTL(bytes32 node, uint64 ttl);
-}
 contract ENSNFT is ERC721Token {
-    ENS ens;
-    mapping(bytes32 => address) recentOwners;
-    constructor (string _name, string _symbol, address _ens) public
+    Registrar registrar;
+    constructor (string _name, string _symbol, address _registrar) public
         ERC721Token(_name, _symbol) {
-        ens = ENS(_ens);
+        registrar = Registrar(_registrar);
     }
-    function register(bytes32 node) public {
-        address currentOwner = ens.owner(node);
-        require(currentOwner != address(this));
-        recentOwners[node] = currentOwner;
+    function mint(bytes32 _hash) public {
+        address deedAddress;
+        (, deedAddress, , , ) = registrar.entries(_hash);
+        Deed deed = Deed(deedAddress);
+        require(deed.owner() == address(this));
+        require(deed.previousOwner() == msg.sender);
+        uint256 tokenId = uint256(_hash); // dont do math on this
+        _mint(deed.previousOwner(), tokenId);
     }
-    function mint(bytes32 node) public {
-        require(ens.owner(node) == address(this));
-        address lastOwner = recentOwners[node];
-        uint256 tokenId = uint256(node); // big endian little endian problem?
-        _mint(lastOwner, tokenId);
-        delete(recentOwners[node]); // here or in burn?
-    }
-    function burn(bytes32 node) {
-        uint256 tokenId = uint256(node);
+    function burn(uint256 tokenId) {
         require(ownerOf(tokenId) == msg.sender);
         _burn(msg.sender, tokenId);
-        ens.setOwner(node, msg.sender);
+        registrar.transfer(bytes32(tokenId), msg.sender);
     }
 }

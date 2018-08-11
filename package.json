@@ -15,6 +15,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "@ensdomains/ens": "https://github.com/ensdomains/ens.git",
     "dotenv": "^5.0.1",
     "solium": "^1.1.7",
     "truffle-hdwallet-provider": "^0.0.5",
