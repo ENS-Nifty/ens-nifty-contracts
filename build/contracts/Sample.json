@@ -10,22 +10,22 @@
   ],
   "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820d36b8bb15f55cd1bf168ce6bc8458d0c01d30dde3d7a558b23fb780f8650876e0029",
   "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820d36b8bb15f55cd1bf168ce6bc8458d0c01d30dde3d7a558b23fb780f8650876e0029",
-  "sourceMap": "79:50:2:-;;;101:24;8:9:-1;5:2;;;30:1;27;20:12;5:2;101:24:2;79:50;;;;;;",
-  "deployedSourceMap": "79:50:2:-;;;;;",
+  "sourceMap": "79:50:3:-;;;101:24;8:9:-1;5:2;;;30:1;27;20:12;5:2;101:24:3;79:50;;;;;;",
+  "deployedSourceMap": "79:50:3:-;;;;;",
   "source": "pragma solidity ^0.4.23;\n\n/**\n * The Sample contract does this and that...\n */\ncontract Sample {\n    constructor () public {}  \n}\n",
   "sourcePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/Sample.sol",
   "ast": {
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/Sample.sol",
     "exportedSymbols": {
       "Sample": [
-        179
+        330
       ]
     },
-    "id": 180,
+    "id": 331,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 174,
+        "id": 325,
         "literals": [
           "solidity",
           "^",
@@ -33,7 +33,7 @@
           ".23"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:2"
+        "src": "0:24:3"
       },
       {
         "baseContracts": [],
@@ -41,22 +41,22 @@
         "contractKind": "contract",
         "documentation": "The Sample contract does this and that...",
         "fullyImplemented": true,
-        "id": 179,
+        "id": 330,
         "linearizedBaseContracts": [
-          179
+          330
         ],
         "name": "Sample",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 177,
+              "id": 328,
               "nodeType": "Block",
-              "src": "123:2:2",
+              "src": "123:2:3",
               "statements": []
             },
             "documentation": null,
-            "id": 178,
+            "id": 329,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -64,43 +64,43 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 175,
+              "id": 326,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "113:2:2"
+              "src": "113:2:3"
             },
             "payable": false,
             "returnParameters": {
-              "id": 176,
+              "id": 327,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "123:0:2"
+              "src": "123:0:3"
             },
-            "scope": 179,
-            "src": "101:24:2",
+            "scope": 330,
+            "src": "101:24:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 180,
-        "src": "79:50:2"
+        "scope": 331,
+        "src": "79:50:3"
       }
     ],
-    "src": "0:130:2"
+    "src": "0:130:3"
   },
   "legacyAST": {
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/Sample.sol",
     "exportedSymbols": {
       "Sample": [
-        179
+        330
       ]
     },
-    "id": 180,
+    "id": 331,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 174,
+        "id": 325,
         "literals": [
           "solidity",
           "^",
@@ -108,7 +108,7 @@
           ".23"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:2"
+        "src": "0:24:3"
       },
       {
         "baseContracts": [],
@@ -116,22 +116,22 @@
         "contractKind": "contract",
         "documentation": "The Sample contract does this and that...",
         "fullyImplemented": true,
-        "id": 179,
+        "id": 330,
         "linearizedBaseContracts": [
-          179
+          330
         ],
         "name": "Sample",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 177,
+              "id": 328,
               "nodeType": "Block",
-              "src": "123:2:2",
+              "src": "123:2:3",
               "statements": []
             },
             "documentation": null,
-            "id": 178,
+            "id": 329,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -139,30 +139,30 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 175,
+              "id": 326,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "113:2:2"
+              "src": "113:2:3"
             },
             "payable": false,
             "returnParameters": {
-              "id": 176,
+              "id": 327,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "123:0:2"
+              "src": "123:0:3"
             },
-            "scope": 179,
-            "src": "101:24:2",
+            "scope": 330,
+            "src": "101:24:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 180,
-        "src": "79:50:2"
+        "scope": 331,
+        "src": "79:50:3"
       }
     ],
-    "src": "0:130:2"
+    "src": "0:130:3"
   },
   "compiler": {
     "name": "solc",
@@ -170,5 +170,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-11T17:54:39.829Z"
+  "updatedAt": "2018-08-12T11:06:21.287Z"
 }

@@ -68,9 +68,9 @@ module.exports = {
         )
       },
       network_id: '3',
-      gasPrice: 1000000000 * 10 // 10 GWEI
+      gasPrice: 1000000000 * 10, // 10 GWEI
 
-      // gas: 4700000
+      gas: 4700000
     },
     sokol: {
       provider() {
