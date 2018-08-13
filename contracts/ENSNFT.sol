@@ -17,7 +17,7 @@ contract ENSNFT is ERC721Token {
         require(deed.owner() == address(this));
         require(deed.previousOwner() == msg.sender);
         uint256 tokenId = uint256(_hash); // dont do math on this
-        _mint(deed.previousOwner(), tokenId);
+        _mint(msg.sender, tokenId);
     }
     function burn(uint256 tokenId) {
         require(ownerOf(tokenId) == msg.sender);
