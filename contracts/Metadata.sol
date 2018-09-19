@@ -1,5 +1,5 @@
 pragma solidity ^0.4.18;
-pragma experimental ABIEncoderV2;
+/* pragma experimental ABIEncoderV2; */
 
 /**
 * CloversMetadata contract is upgradeable and returns metadata about Clovers
@@ -9,8 +9,6 @@ import "./helpers/strings.sol";
 
 contract Metadata {
     using strings for *;
-
-    function Metadata () public {}
 
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
         string memory base = "https://ensnifty.com/metadata/0x";

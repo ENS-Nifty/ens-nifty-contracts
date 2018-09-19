@@ -18,14 +18,14 @@
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/Sample.sol",
     "exportedSymbols": {
       "Sample": [
-        330
+        365
       ]
     },
-    "id": 331,
+    "id": 366,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 325,
+        "id": 360,
         "literals": [
           "solidity",
           "^",
@@ -41,22 +41,22 @@
         "contractKind": "contract",
         "documentation": "The Sample contract does this and that...",
         "fullyImplemented": true,
-        "id": 330,
+        "id": 365,
         "linearizedBaseContracts": [
-          330
+          365
         ],
         "name": "Sample",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 328,
+              "id": 363,
               "nodeType": "Block",
               "src": "123:2:3",
               "statements": []
             },
             "documentation": null,
-            "id": 329,
+            "id": 364,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -64,26 +64,26 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 326,
+              "id": 361,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "113:2:3"
             },
             "payable": false,
             "returnParameters": {
-              "id": 327,
+              "id": 362,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "123:0:3"
             },
-            "scope": 330,
+            "scope": 365,
             "src": "101:24:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 331,
+        "scope": 366,
         "src": "79:50:3"
       }
     ],
@@ -93,14 +93,14 @@
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/Sample.sol",
     "exportedSymbols": {
       "Sample": [
-        330
+        365
       ]
     },
-    "id": 331,
+    "id": 366,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 325,
+        "id": 360,
         "literals": [
           "solidity",
           "^",
@@ -116,22 +116,22 @@
         "contractKind": "contract",
         "documentation": "The Sample contract does this and that...",
         "fullyImplemented": true,
-        "id": 330,
+        "id": 365,
         "linearizedBaseContracts": [
-          330
+          365
         ],
         "name": "Sample",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 328,
+              "id": 363,
               "nodeType": "Block",
               "src": "123:2:3",
               "statements": []
             },
             "documentation": null,
-            "id": 329,
+            "id": 364,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -139,26 +139,26 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 326,
+              "id": 361,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "113:2:3"
             },
             "payable": false,
             "returnParameters": {
-              "id": 327,
+              "id": 362,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "123:0:3"
             },
-            "scope": 330,
+            "scope": 365,
             "src": "101:24:3",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 331,
+        "scope": 366,
         "src": "79:50:3"
       }
     ],
@@ -170,5 +170,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-12T11:06:21.287Z"
+  "updatedAt": "2018-09-19T21:29:14.208Z"
 }
