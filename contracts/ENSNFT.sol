@@ -7,9 +7,9 @@ import '@ensdomains/ens/contracts/HashRegistrarSimplified.sol';
 contract ENSNFT is ERC721Token {
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     Registrar registrar;
-    constructor (string _name, string _symbol, address _registrar) public
+    constructor (string _name, string _symbol, Registrar _registrar) public
         ERC721Token(_name, _symbol) {
-        registrar = Registrar(_registrar);
+        registrar = _registrar;
     }
     function mint(bytes32 _hash) public {
         address deedAddress;
