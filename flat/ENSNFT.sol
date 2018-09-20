@@ -1,5 +1,69 @@
 pragma solidity ^0.4.24;
 
+// File: contracts/zeppelin-solidity/contracts/ownership/Ownable.sol
+
+/**
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+  address public owner;
+
+
+  event OwnershipRenounced(address indexed previousOwner);
+  event OwnershipTransferred(
+    address indexed previousOwner,
+    address indexed newOwner
+  );
+
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  constructor() public {
+    owner = msg.sender;
+  }
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to relinquish control of the contract.
+   * @notice Renouncing to ownership will leave the contract without an owner.
+   * It will not be possible to call the functions with the `onlyOwner`
+   * modifier anymore.
+   */
+  function renounceOwnership() public onlyOwner {
+    emit OwnershipRenounced(owner);
+    owner = address(0);
+  }
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param _newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address _newOwner) public onlyOwner {
+    _transferOwnership(_newOwner);
+  }
+
+  /**
+   * @dev Transfers control of the contract to a newOwner.
+   * @param _newOwner The address to transfer ownership to.
+   */
+  function _transferOwnership(address _newOwner) internal {
+    require(_newOwner != address(0));
+    emit OwnershipTransferred(owner, _newOwner);
+    owner = _newOwner;
+  }
+}
+
 // File: contracts/zeppelin-solidity/contracts/introspection/ERC165.sol
 
 /**
@@ -1544,10 +1608,9 @@ contract Metadata {
     using strings for *;
 
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
-        string memory base = "https://ensnifty.com/metadata/0x";
+        string memory base = "https://ensnifty.com/metadata?hash=0x";
         string memory id = uint2hexstr(_tokenId);
-        string memory suffix = ".json";
-        return base.toSlice().concat(id.toSlice()).toSlice().concat(suffix.toSlice());
+        return base.toSlice().concat(id.toSlice());
     }
     function uint2hexstr(uint i) internal pure returns (string) {
         if (i == 0) return "0";
@@ -2223,7 +2286,8 @@ contract Registrar {
 
 
 
-contract ENSNFT is ERC721Token {
+
+contract ENSNFT is ERC721Token, Ownable {
     event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     address metadata;
     Registrar registrar;
@@ -2251,6 +2315,9 @@ contract ENSNFT is ERC721Token {
         }
         // this is how it would be done if returning a variable length were allowed
         // return Metadata(metadata).tokenMetadata(_tokenId);
+    }
+    function updateMetadata(Metadata _metadata) public onlyOwner {
+        metadata = _metadata;
     }
     function mint(bytes32 _hash) public {
         address deedAddress;

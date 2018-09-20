@@ -727,10 +727,9 @@ contract Metadata {
     using strings for *;
 
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
-        string memory base = "https://ensnifty.com/metadata/0x";
+        string memory base = "https://ensnifty.com/metadata?hash=0x";
         string memory id = uint2hexstr(_tokenId);
-        string memory suffix = ".json";
-        return base.toSlice().concat(id.toSlice()).toSlice().concat(suffix.toSlice());
+        return base.toSlice().concat(id.toSlice());
     }
     function uint2hexstr(uint i) internal pure returns (string) {
         if (i == 0) return "0";
