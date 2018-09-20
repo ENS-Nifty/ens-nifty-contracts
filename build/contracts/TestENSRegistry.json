@@ -218,14 +218,14 @@
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/helpers/TestENSRegistry.sol",
     "exportedSymbols": {
       "TestENSRegistry": [
-        336
+        371
       ]
     },
-    "id": 337,
+    "id": 372,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 332,
+        "id": 367,
         "literals": [
           "solidity",
           "^",
@@ -238,10 +238,10 @@
       {
         "absolutePath": "@ensdomains/ens/contracts/ENSRegistry.sol",
         "file": "@ensdomains/ens/contracts/ENSRegistry.sol",
-        "id": 333,
+        "id": 368,
         "nodeType": "ImportDirective",
-        "scope": 337,
-        "sourceUnit": 2410,
+        "scope": 372,
+        "sourceUnit": 2445,
         "src": "25:51:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -252,38 +252,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 334,
+              "id": 369,
               "name": "ENSRegistry",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2409,
+              "referencedDeclaration": 2444,
               "src": "106:11:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ENSRegistry_$2409",
+                "typeIdentifier": "t_contract$_ENSRegistry_$2444",
                 "typeString": "contract ENSRegistry"
               }
             },
-            "id": 335,
+            "id": 370,
             "nodeType": "InheritanceSpecifier",
             "src": "106:11:4"
           }
         ],
         "contractDependencies": [
-          2224,
-          2409
+          2259,
+          2444
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 336,
+        "id": 371,
         "linearizedBaseContracts": [
-          336,
-          2409,
-          2224
+          371,
+          2444,
+          2259
         ],
         "name": "TestENSRegistry",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 337,
+        "scope": 372,
         "src": "78:42:4"
       }
     ],
@@ -293,14 +293,14 @@
     "absolutePath": "/Users/billy/sol/ens/ens-nifty-contracts/contracts/helpers/TestENSRegistry.sol",
     "exportedSymbols": {
       "TestENSRegistry": [
-        336
+        371
       ]
     },
-    "id": 337,
+    "id": 372,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 332,
+        "id": 367,
         "literals": [
           "solidity",
           "^",
@@ -313,10 +313,10 @@
       {
         "absolutePath": "@ensdomains/ens/contracts/ENSRegistry.sol",
         "file": "@ensdomains/ens/contracts/ENSRegistry.sol",
-        "id": 333,
+        "id": 368,
         "nodeType": "ImportDirective",
-        "scope": 337,
-        "sourceUnit": 2410,
+        "scope": 372,
+        "sourceUnit": 2445,
         "src": "25:51:4",
         "symbolAliases": [],
         "unitAlias": ""
@@ -327,38 +327,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 334,
+              "id": 369,
               "name": "ENSRegistry",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2409,
+              "referencedDeclaration": 2444,
               "src": "106:11:4",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ENSRegistry_$2409",
+                "typeIdentifier": "t_contract$_ENSRegistry_$2444",
                 "typeString": "contract ENSRegistry"
               }
             },
-            "id": 335,
+            "id": 370,
             "nodeType": "InheritanceSpecifier",
             "src": "106:11:4"
           }
         ],
         "contractDependencies": [
-          2224,
-          2409
+          2259,
+          2444
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 336,
+        "id": 371,
         "linearizedBaseContracts": [
-          336,
-          2409,
-          2224
+          371,
+          2444,
+          2259
         ],
         "name": "TestENSRegistry",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 337,
+        "scope": 372,
         "src": "78:42:4"
       }
     ],
@@ -370,5 +370,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-08-12T11:06:21.287Z"
+  "updatedAt": "2018-09-19T21:29:14.209Z"
 }

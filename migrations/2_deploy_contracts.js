@@ -6,12 +6,19 @@ const NFTname = 'ENS NIFTY'
 const NFTsymbol = 'ENS-NFT'
 const ropstenRegistrarAddress = '0xc19fd9004b5c9789391679de6d766b981db94610'
 const mainnetRegistrarAddress = '0x6090A6e47849629b7245Dfa1Ca21D94cd15878Ef'
+
+const ropstenMetadataAddress = '0x8039E1268C6FE15c141D7adA3a96882EdABAfde1'
+const mainnetMetadataAddress = '0x75190b1cd717eb74820c7c15e121bae9ad28b67c'
 module.exports = (deployer, network, accounts) => {
   deployer.then(async () => {
     try {
       // Deploy Metadata.solc
       // await deployer.deploy(Metadata)
       // let metadata = await Metadata.deployed()
+      let metadata = {address:
+        network === 'mainnet'
+        ? mainnetMetadataAddress
+        : ropstenMetadataAddress}
 
       // Deploy ENSNFT.sol
       let registrarAddress =
@@ -23,8 +30,8 @@ module.exports = (deployer, network, accounts) => {
         ENSNFT,
         NFTname,
         NFTsymbol,
-        registrarAddress
-        // metadata.address
+        registrarAddress,
+        metadata.address
       )
     } catch (error) {
       console.log(error)
