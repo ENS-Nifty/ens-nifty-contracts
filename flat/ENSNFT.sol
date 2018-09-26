@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-// File: contracts/zeppelin-solidity/contracts/ownership/Ownable.sol
+// File: zeppelin-solidity/contracts/ownership/Ownable.sol
 
 /**
  * @title Ownable
@@ -64,7 +64,7 @@ contract Ownable {
   }
 }
 
-// File: contracts/zeppelin-solidity/contracts/introspection/ERC165.sol
+// File: zeppelin-solidity/contracts/introspection/ERC165.sol
 
 /**
  * @title ERC165
@@ -84,7 +84,7 @@ interface ERC165 {
     returns (bool);
 }
 
-// File: contracts/zeppelin-solidity/contracts/token/ERC721/ERC721Basic.sol
+// File: zeppelin-solidity/contracts/token/ERC721/ERC721Basic.sol
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic interface
@@ -169,7 +169,7 @@ contract ERC721Basic is ERC165 {
     public;
 }
 
-// File: contracts/zeppelin-solidity/contracts/token/ERC721/ERC721.sol
+// File: zeppelin-solidity/contracts/token/ERC721/ERC721.sol
 
 /**
  * @title ERC-721 Non-Fungible Token Standard, optional enumeration extension
@@ -207,7 +207,7 @@ contract ERC721Metadata is ERC721Basic {
 contract ERC721 is ERC721Basic, ERC721Enumerable, ERC721Metadata {
 }
 
-// File: contracts/zeppelin-solidity/contracts/token/ERC721/ERC721Receiver.sol
+// File: zeppelin-solidity/contracts/token/ERC721/ERC721Receiver.sol
 
 /**
  * @title ERC721 token receiver interface
@@ -245,7 +245,7 @@ contract ERC721Receiver {
     returns(bytes4);
 }
 
-// File: contracts/zeppelin-solidity/contracts/math/SafeMath.sol
+// File: zeppelin-solidity/contracts/math/SafeMath.sol
 
 /**
  * @title SafeMath
@@ -297,7 +297,7 @@ library SafeMath {
   }
 }
 
-// File: contracts/zeppelin-solidity/contracts/AddressUtils.sol
+// File: zeppelin-solidity/contracts/AddressUtils.sol
 
 /**
  * Utility library of inline functions on addresses
@@ -326,7 +326,7 @@ library AddressUtils {
 
 }
 
-// File: contracts/zeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol
+// File: zeppelin-solidity/contracts/introspection/SupportsInterfaceWithLookup.sol
 
 /**
  * @title SupportsInterfaceWithLookup
@@ -378,7 +378,7 @@ contract SupportsInterfaceWithLookup is ERC165 {
   }
 }
 
-// File: contracts/zeppelin-solidity/contracts/token/ERC721/ERC721BasicToken.sol
+// File: zeppelin-solidity/contracts/token/ERC721/ERC721BasicToken.sol
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
@@ -684,7 +684,7 @@ contract ERC721BasicToken is SupportsInterfaceWithLookup, ERC721Basic {
   }
 }
 
-// File: contracts/zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol
+// File: zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol
 
 /**
  * @title Full ERC721 Token
@@ -1597,10 +1597,8 @@ library strings {
 
 // File: contracts/Metadata.sol
 
-/* pragma experimental ABIEncoderV2; */
-
 /**
-* CloversMetadata contract is upgradeable and returns metadata about Clovers
+* Metadata contract is upgradeable and returns metadata about Token
 */
 
 
@@ -1632,13 +1630,29 @@ contract Metadata {
     }
 }
 
-// File: contracts/@ensdomains/ens/contracts/Deed.sol
+// File: @ensdomains/ens/contracts/Deed.sol
+
+interface Deed {
+
+    function setOwner(address newOwner) public;
+    function setRegistrar(address newRegistrar) public;
+    function setBalance(uint newValue, bool throwOnFailure) public;
+    function closeDeed(uint refundRatio) public;
+    function destroyDeed() public;
+
+    function owner() public view returns (address);
+    function value() public view returns (uint);
+    function creationDate() public view returns (uint);
+
+}
+
+// File: @ensdomains/ens/contracts/DeedImplementation.sol
 
 /**
  * @title Deed to hold ether in exchange for ownership of a node
  * @dev The deed can be controlled only by the registrar and can only send ether back to the owner.
  */
-contract Deed {
+contract DeedImplementation is Deed {
 
     address constant burn = 0xdead;
 
@@ -1664,7 +1678,7 @@ contract Deed {
         _;
     }
 
-    function Deed(address _owner) public payable {
+    constructor(address _owner) public payable {
         owner = _owner;
         registrar = msg.sender;
         creationDate = now;
@@ -1676,7 +1690,7 @@ contract Deed {
         require(newOwner != 0);
         previousOwner = owner;  // This allows contracts to check who sent them the ownership
         owner = newOwner;
-        OwnerChanged(newOwner);
+        emit OwnerChanged(newOwner);
     }
 
     function setRegistrar(address newRegistrar) public onlyRegistrar {
@@ -1688,7 +1702,7 @@ contract Deed {
         require(value >= newValue);
         value = newValue;
         // Send the difference to the owner
-        require(owner.send(this.balance - newValue) || !throwOnFailure);
+        require(owner.send(address(this).balance - newValue) || !throwOnFailure);
     }
 
     /**
@@ -1698,8 +1712,8 @@ contract Deed {
      */
     function closeDeed(uint refundRatio) public onlyRegistrar onlyActive {
         active = false;
-        require(burn.send(((1000 - refundRatio) * this.balance)/1000));
-        DeedClosed();
+        require(burn.send(((1000 - refundRatio) * address(this).balance)/1000));
+        emit DeedClosed();
         destroyDeed();
     }
 
@@ -1712,13 +1726,25 @@ contract Deed {
         // Instead of selfdestruct(owner), invoke owner fallback function to allow
         // owner to log an event if desired; but owner should also be aware that
         // its fallback function can also be invoked by setBalance
-        if (owner.send(this.balance)) {
+        if (owner.send(address(this).balance)) {
             selfdestruct(burn);
         }
     }
+
+    function owner() public view returns (address) {
+        return owner;
+    }
+
+    function value() public view returns (uint) {
+        return value;
+    }
+
+    function creationDate() public view returns (uint) {
+        return creationDate;
+    }
 }
 
-// File: contracts/@ensdomains/ens/contracts/ENS.sol
+// File: @ensdomains/ens/contracts/ENS.sol
 
 interface ENS {
 
@@ -1745,7 +1771,34 @@ interface ENS {
 
 }
 
-// File: contracts/@ensdomains/ens/contracts/HashRegistrarSimplified.sol
+// File: @ensdomains/ens/contracts/Registrar.sol
+
+interface Registrar {
+
+    event AuctionStarted(bytes32 indexed hash, uint registrationDate);
+    event NewBid(bytes32 indexed hash, address indexed bidder, uint deposit);
+    event BidRevealed(bytes32 indexed hash, address indexed owner, uint value, uint8 status);
+    event HashRegistered(bytes32 indexed hash, address indexed owner, uint value, uint registrationDate);
+    event HashReleased(bytes32 indexed hash, uint value);
+    event HashInvalidated(bytes32 indexed hash, string indexed name, uint value, uint registrationDate);
+
+
+    function startAuction(bytes32 _hash) public;
+    function startAuctions(bytes32[] _hashes) public;
+    function newBid(bytes32 sealedBid) public payable;
+    function startAuctionsAndBid(bytes32[] hashes, bytes32 sealedBid) public payable;
+    function unsealBid(bytes32 _hash, uint _value, bytes32 _salt) public;
+    function cancelBid(address bidder, bytes32 seal) public;
+    function finalizeAuction(bytes32 _hash) public;
+    function transfer(bytes32 _hash, address newOwner) public;
+    function releaseDeed(bytes32 _hash) public;
+    function invalidateName(string unhashedName) public;
+    function eraseNode(bytes32[] labels) public;
+    function transferRegistrars(bytes32 _hash) public;
+    function acceptRegistrarTransfer(bytes32 hash, Deed deed, uint registrationDate) public;
+}
+
+// File: @ensdomains/ens/contracts/HashRegistrar.sol
 
 /*
 
@@ -1761,11 +1814,12 @@ The plan is to test the basic features and then move to a new contract in at mos
 
 
 
+
 /**
  * @title Registrar
  * @dev The registrar handles the auction process for each subnode of the node it owns.
  */
-contract Registrar {
+contract HashRegistrar is Registrar {
     ENS public ens;
     bytes32 public rootNode;
 
@@ -1780,13 +1834,6 @@ contract Registrar {
 
     uint constant minPrice = 0.01 ether;
     uint public registryStarted;
-
-    event AuctionStarted(bytes32 indexed hash, uint registrationDate);
-    event NewBid(bytes32 indexed hash, address indexed bidder, uint deposit);
-    event BidRevealed(bytes32 indexed hash, address indexed owner, uint value, uint8 status);
-    event HashRegistered(bytes32 indexed hash, address indexed owner, uint value, uint registrationDate);
-    event HashReleased(bytes32 indexed hash, uint value);
-    event HashInvalidated(bytes32 indexed hash, string indexed name, uint value, uint registrationDate);
 
     struct Entry {
         Deed deed;
@@ -1816,7 +1863,7 @@ contract Registrar {
      * @param _ens The address of the ENS
      * @param _rootNode The hash of the rootnode.
      */
-    function Registrar(ENS _ens, bytes32 _rootNode, uint _startDate) public {
+    constructor(ENS _ens, bytes32 _rootNode, uint _startDate) public {
         ens = _ens;
         rootNode = _rootNode;
         registryStarted = _startDate > 0 ? _startDate : now;
@@ -1836,7 +1883,7 @@ contract Registrar {
         newAuction.registrationDate = now + totalAuctionLength;
         newAuction.value = 0;
         newAuction.highestBid = 0;
-        AuctionStarted(_hash, newAuction.registrationDate);
+        emit AuctionStarted(_hash, newAuction.registrationDate);
     }
 
     /**
@@ -1874,9 +1921,9 @@ contract Registrar {
         require(msg.value >= minPrice);
 
         // Creates a new hash contract with the owner
-        Deed newBid = (new Deed).value(msg.value)(msg.sender);
+        Deed newBid = (new DeedImplementation).value(msg.value)(msg.sender);
         sealedBids[msg.sender][sealedBid] = newBid;
-        NewBid(sealedBid, msg.sender, msg.value);
+        emit NewBid(sealedBid, msg.sender, msg.value);
     }
 
     /**
@@ -1910,18 +1957,18 @@ contract Registrar {
         uint value = min(_value, bid.value());
         bid.setBalance(value, true);
 
-        var auctionState = state(_hash);
+        Mode auctionState = state(_hash);
         if (auctionState == Mode.Owned) {
             // Too late! Bidder loses their bid. Gets 0.5% back.
             bid.closeDeed(5);
-            BidRevealed(_hash, msg.sender, value, 1);
+            emit BidRevealed(_hash, msg.sender, value, 1);
         } else if (auctionState != Mode.Reveal) {
             // Invalid phase
             revert();
         } else if (value < minPrice || bid.creationDate() > h.registrationDate - revealPeriod) {
             // Bid too low or too late, refund 99.5%
             bid.closeDeed(995);
-            BidRevealed(_hash, msg.sender, value, 0);
+            emit BidRevealed(_hash, msg.sender, value, 0);
         } else if (value > h.highestBid) {
             // New winner
             // Cancel the other bid, refund 99.5%
@@ -1935,16 +1982,16 @@ contract Registrar {
             h.value = h.highestBid;  // will be zero if there's only 1 bidder
             h.highestBid = value;
             h.deed = bid;
-            BidRevealed(_hash, msg.sender, value, 2);
+            emit BidRevealed(_hash, msg.sender, value, 2);
         } else if (value > h.value) {
             // Not winner, but affects second place
             h.value = value;
             bid.closeDeed(995);
-            BidRevealed(_hash, msg.sender, value, 3);
+            emit BidRevealed(_hash, msg.sender, value, 3);
         } else {
             // Bid doesn't affect auction
             bid.closeDeed(995);
-            BidRevealed(_hash, msg.sender, value, 4);
+            emit BidRevealed(_hash, msg.sender, value, 4);
         }
     }
 
@@ -1968,7 +2015,7 @@ contract Registrar {
         bid.setOwner(msg.sender);
         bid.closeDeed(5);
         sealedBids[bidder][seal] = Deed(0);
-        BidRevealed(seal, bidder, 0, 5);
+        emit BidRevealed(seal, bidder, 0, 5);
     }
 
     /**
@@ -1984,7 +2031,7 @@ contract Registrar {
         h.deed.setBalance(h.value, true);
 
         trySetSubnodeOwner(_hash, h.deed.owner());
-        HashRegistered(_hash, h.deed.owner(), h.value, h.registrationDate);
+        emit HashRegistered(_hash, h.deed.owner(), h.value, h.registrationDate);
     }
 
     /**
@@ -2019,7 +2066,7 @@ contract Registrar {
 
         _tryEraseSingleNode(_hash);
         deedContract.closeDeed(1000);
-        HashReleased(_hash, h.value);        
+        emit HashReleased(_hash, h.value);        
     }
 
     /**
@@ -2048,7 +2095,7 @@ contract Registrar {
             h.deed.closeDeed(1000);
         }
 
-        HashInvalidated(hash, unhashedName, h.value, h.registrationDate);
+        emit HashInvalidated(hash, unhashedName, h.value, h.registrationDate);
 
         h.value = 0;
         h.highestBid = 0;
@@ -2175,13 +2222,13 @@ contract Registrar {
      * @return The hash of the bid values
      */
     function shaBid(bytes32 hash, address owner, uint value, bytes32 salt) public pure returns (bytes32) {
-        return keccak256(hash, owner, value, salt);
+        return keccak256(abi.encodePacked(hash, owner, value, salt));
     }
 
     function _tryEraseSingleNode(bytes32 label) internal {
         if (ens.owner(rootNode) == address(this)) {
             ens.setSubnodeOwner(rootNode, label, address(this));
-            bytes32 node = keccak256(rootNode, label);
+            bytes32 node = keccak256(abi.encodePacked(rootNode, label));
             ens.setResolver(node, 0);
             ens.setOwner(node, 0);
         }
@@ -2190,7 +2237,7 @@ contract Registrar {
     function _eraseNodeHierarchy(uint idx, bytes32[] labels, bytes32 node) internal {
         // Take ownership of the node
         ens.setSubnodeOwner(node, labels[idx], address(this));
-        node = keccak256(node, labels[idx]);
+        node = keccak256(abi.encodePacked(node, labels[idx]));
 
         // Recurse if there are more labels
         if (idx > 0) {
@@ -2288,10 +2335,9 @@ contract Registrar {
 
 
 contract ENSNFT is ERC721Token, Ownable {
-    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     address metadata;
-    Registrar registrar;
-    constructor (string _name, string _symbol, Registrar _registrar, Metadata _metadata) public
+    HashRegistrar registrar;
+    constructor (string _name, string _symbol, HashRegistrar _registrar, Metadata _metadata) public
         ERC721Token(_name, _symbol) {
         registrar = _registrar;
         metadata = _metadata;
@@ -2300,7 +2346,7 @@ contract ENSNFT is ERC721Token, Ownable {
         return metadata;
     }
     // this function uses assembly to delegate a call because it returns a string
-    // of variable length which is not currently allowed without ABIEncoderV2 enabled
+    // of variable length
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
         address _impl = getMetadata();
         bytes memory data = msg.data;
@@ -2313,7 +2359,7 @@ contract ENSNFT is ERC721Token, Ownable {
             case 0 { revert(ptr, size) }
             default { return(ptr, size) }
         }
-        // this is how it would be done if returning a variable length were allowed
+        // this is how it would be done if returning a variable length were allowed outside assembly
         // return Metadata(metadata).tokenMetadata(_tokenId);
     }
     function updateMetadata(Metadata _metadata) public onlyOwner {
@@ -2322,11 +2368,11 @@ contract ENSNFT is ERC721Token, Ownable {
     function mint(bytes32 _hash) public {
         address deedAddress;
         (, deedAddress, , , ) = registrar.entries(_hash);
-        Deed deed = Deed(deedAddress);
+        DeedImplementation deed = DeedImplementation(deedAddress);
         require(deed.owner() == address(this));
         require(deed.previousOwner() == msg.sender);
         uint256 tokenId = uint256(_hash); // dont do math on this
-        _mint(deed.previousOwner(), tokenId);
+        _mint(msg.sender, tokenId);
     }
     function burn(uint256 tokenId) {
         require(ownerOf(tokenId) == msg.sender);

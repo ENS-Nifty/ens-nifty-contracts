@@ -15,18 +15,18 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@ensdomains/ens": "https://github.com/ensdomains/ens.git",
+    "@ensdomains/ens": "https://github.com/ensdomains/ens.git#54338f527f652b5ed096529134eae9ac9c20a643",
     "dotenv": "^5.0.1",
     "ethers": "^4.0.0-beta.11",
     "solium": "^1.1.7",
     "truffle": "^4.1.13",
     "truffle-hdwallet-provider": "^0.0.5",
     "web3-utils": "^1.0.0-beta.34",
-    "zeppelin-solidity": "^1.12.0"
+    "zeppelin-solidity": "1.12.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/okwme/truffle-boilerplate.git"
+    "url": "https://github.com/ENS-Nifty/ens-nifty-contracts.git"
   },
   "keywords": [
     "truffle",

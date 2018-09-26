@@ -716,10 +716,8 @@ library strings {
 
 // File: contracts/Metadata.sol
 
-/* pragma experimental ABIEncoderV2; */
-
 /**
-* CloversMetadata contract is upgradeable and returns metadata about Clovers
+* Metadata contract is upgradeable and returns metadata about Token
 */
 
 

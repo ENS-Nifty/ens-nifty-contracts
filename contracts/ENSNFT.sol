@@ -1,17 +1,16 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
 /* pragma experimental ABIEncoderV2; */
 
-import './zeppelin-solidity/contracts/ownership/Ownable.sol';
-import './zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
-import "./Metadata.sol";
-import './@ensdomains/ens/contracts/Deed.sol';
-import './@ensdomains/ens/contracts/HashRegistrarSimplified.sol';
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
+import './Metadata.sol';
+import '@ensdomains/ens/contracts/DeedImplementation.sol';
+import '@ensdomains/ens/contracts/HashRegistrar.sol';
 
 contract ENSNFT is ERC721Token, Ownable {
-    event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
     address metadata;
-    Registrar registrar;
-    constructor (string _name, string _symbol, Registrar _registrar, Metadata _metadata) public
+    HashRegistrar registrar;
+    constructor (string _name, string _symbol, HashRegistrar _registrar, Metadata _metadata) public
         ERC721Token(_name, _symbol) {
         registrar = _registrar;
         metadata = _metadata;
@@ -20,7 +19,7 @@ contract ENSNFT is ERC721Token, Ownable {
         return metadata;
     }
     // this function uses assembly to delegate a call because it returns a string
-    // of variable length which is not currently allowed without ABIEncoderV2 enabled
+    // of variable length
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
         address _impl = getMetadata();
         bytes memory data = msg.data;
@@ -33,7 +32,7 @@ contract ENSNFT is ERC721Token, Ownable {
             case 0 { revert(ptr, size) }
             default { return(ptr, size) }
         }
-        // this is how it would be done if returning a variable length were allowed
+        // this is how it would be done if returning a variable length were allowed outside assembly
         // return Metadata(metadata).tokenMetadata(_tokenId);
     }
     function updateMetadata(Metadata _metadata) public onlyOwner {
@@ -42,7 +41,7 @@ contract ENSNFT is ERC721Token, Ownable {
     function mint(bytes32 _hash) public {
         address deedAddress;
         (, deedAddress, , , ) = registrar.entries(_hash);
-        Deed deed = Deed(deedAddress);
+        DeedImplementation deed = DeedImplementation(deedAddress);
         require(deed.owner() == address(this));
         require(deed.previousOwner() == msg.sender);
         uint256 tokenId = uint256(_hash); // dont do math on this
