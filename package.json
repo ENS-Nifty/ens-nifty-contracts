@@ -15,12 +15,12 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@ensdomains/ens": "https://github.com/ensdomains/ens.git#54338f527f652b5ed096529134eae9ac9c20a643",
+    "@ensdomains/ens": "https://github.com/ensdomains/ens.git#9f0dc10c2b7ff73c1c3c921219a5e52083010a79",
     "dotenv": "^5.0.1",
     "ethers": "^4.0.0-beta.11",
     "solium": "^1.1.7",
     "truffle": "^4.1.13",
-    "truffle-hdwallet-provider": "^0.0.5",
+    "truffle-hdwallet-provider": "^1.0.0-web3one.0",
     "web3-utils": "^1.0.0-beta.34",
     "zeppelin-solidity": "1.12.0"
   },

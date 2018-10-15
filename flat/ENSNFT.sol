@@ -1606,7 +1606,7 @@ contract Metadata {
     using strings for *;
 
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
-        string memory base = "https://ensnifty.com/metadata?hash=0x";
+        string memory base = "https://ensnifty.com/metadata/0x";
         string memory id = uint2hexstr(_tokenId);
         return base.toSlice().concat(id.toSlice());
     }
@@ -1630,6 +1630,33 @@ contract Metadata {
     }
 }
 
+// File: @ensdomains/ens/contracts/ENS.sol
+
+interface ENS {
+
+    // Logged when the owner of a node assigns a new owner to a subnode.
+    event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
+
+    // Logged when the owner of a node transfers ownership to a new account.
+    event Transfer(bytes32 indexed node, address owner);
+
+    // Logged when the resolver for a node changes.
+    event NewResolver(bytes32 indexed node, address resolver);
+
+    // Logged when the TTL of a node changes
+    event NewTTL(bytes32 indexed node, uint64 ttl);
+
+
+    function setSubnodeOwner(bytes32 node, bytes32 label, address owner) public;
+    function setResolver(bytes32 node, address resolver) public;
+    function setOwner(bytes32 node, address owner) public;
+    function setTTL(bytes32 node, uint64 ttl) public;
+    function owner(bytes32 node) public view returns (address);
+    function resolver(bytes32 node) public view returns (address);
+    function ttl(bytes32 node) public view returns (uint64);
+
+}
+
 // File: @ensdomains/ens/contracts/Deed.sol
 
 interface Deed {
@@ -1641,6 +1668,7 @@ interface Deed {
     function destroyDeed() public;
 
     function owner() public view returns (address);
+    function previousOwner() public view returns (address);
     function value() public view returns (uint);
     function creationDate() public view returns (uint);
 
@@ -1735,6 +1763,10 @@ contract DeedImplementation is Deed {
         return owner;
     }
 
+    function previousOwner() public view returns (address) {
+        return previousOwner;
+    }
+
     function value() public view returns (uint) {
         return value;
     }
@@ -1742,33 +1774,6 @@ contract DeedImplementation is Deed {
     function creationDate() public view returns (uint) {
         return creationDate;
     }
-}
-
-// File: @ensdomains/ens/contracts/ENS.sol
-
-interface ENS {
-
-    // Logged when the owner of a node assigns a new owner to a subnode.
-    event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
-
-    // Logged when the owner of a node transfers ownership to a new account.
-    event Transfer(bytes32 indexed node, address owner);
-
-    // Logged when the resolver for a node changes.
-    event NewResolver(bytes32 indexed node, address resolver);
-
-    // Logged when the TTL of a node changes
-    event NewTTL(bytes32 indexed node, uint64 ttl);
-
-
-    function setSubnodeOwner(bytes32 node, bytes32 label, address owner) public;
-    function setResolver(bytes32 node, address resolver) public;
-    function setOwner(bytes32 node, address owner) public;
-    function setTTL(bytes32 node, uint64 ttl) public;
-    function owner(bytes32 node) public view returns (address);
-    function resolver(bytes32 node) public view returns (address);
-    function ttl(bytes32 node) public view returns (uint64);
-
 }
 
 // File: @ensdomains/ens/contracts/Registrar.sol
@@ -2333,7 +2338,6 @@ contract HashRegistrar is Registrar {
 
 
 
-
 contract ENSNFT is ERC721Token, Ownable {
     address metadata;
     HashRegistrar registrar;
@@ -2368,7 +2372,7 @@ contract ENSNFT is ERC721Token, Ownable {
     function mint(bytes32 _hash) public {
         address deedAddress;
         (, deedAddress, , , ) = registrar.entries(_hash);
-        DeedImplementation deed = DeedImplementation(deedAddress);
+        Deed deed = Deed(deedAddress);
         require(deed.owner() == address(this));
         require(deed.previousOwner() == msg.sender);
         uint256 tokenId = uint256(_hash); // dont do math on this

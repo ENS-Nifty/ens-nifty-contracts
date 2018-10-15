@@ -13,7 +13,7 @@ module.exports = (deployer, network, accounts) => {
   deployer.then(async () => {
     try {
       // Deploy Metadata.solc
-      await deployer.deploy(Metadata)
+      // await deployer.deploy(Metadata)
       let metadata = await Metadata.deployed()
       // let metadata = {address:
       //   network === 'mainnet'

@@ -725,7 +725,7 @@ contract Metadata {
     using strings for *;
 
     function tokenURI(uint _tokenId) public view returns (string _infoUrl) {
-        string memory base = "https://ensnifty.com/metadata?hash=0x";
+        string memory base = "https://ensnifty.com/metadata/0x";
         string memory id = uint2hexstr(_tokenId);
         return base.toSlice().concat(id.toSlice());
     }

@@ -4,7 +4,6 @@ pragma solidity ^0.4.24;
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol';
 import './Metadata.sol';
-import '@ensdomains/ens/contracts/DeedImplementation.sol';
 import '@ensdomains/ens/contracts/HashRegistrar.sol';
 
 contract ENSNFT is ERC721Token, Ownable {
@@ -41,7 +40,7 @@ contract ENSNFT is ERC721Token, Ownable {
     function mint(bytes32 _hash) public {
         address deedAddress;
         (, deedAddress, , , ) = registrar.entries(_hash);
-        DeedImplementation deed = DeedImplementation(deedAddress);
+        Deed deed = Deed(deedAddress);
         require(deed.owner() == address(this));
         require(deed.previousOwner() == msg.sender);
         uint256 tokenId = uint256(_hash); // dont do math on this

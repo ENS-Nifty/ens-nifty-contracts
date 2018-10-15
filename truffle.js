@@ -7,7 +7,7 @@ module.exports = {
       provider() {
         return new HDWalletProvider(
           process.env.ENS_MAINNET,
-          'https://mainnet.infura.io/v3/' + process.env.INFURA_API_KEY
+          'https://mainnet.infura.io/' + process.env.INFURA_API_KEY
         )
       },
       network_id: 1,
@@ -57,8 +57,8 @@ module.exports = {
         )
       },
       network_id: 4,
-      gas: 2700000,
-      gasPrice: 10000000000
+      // gas: 2700000,
+      // gasPrice: 10000000000
     },
     ropsten: {
       provider() {
