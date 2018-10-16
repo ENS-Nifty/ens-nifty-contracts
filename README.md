@@ -3,6 +3,9 @@
 ## Audit
 https://hackmd.io/s/SJux97UYQ
 
+## Etherscan
+https://etherscan.io/token/0x7c523c42AD255E5b270B12fEE2Ecc1103e88a9dC
+
 ## Run
 ```
 yarn lint:watch
